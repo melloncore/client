@@ -1,0 +1,73 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-display: "Space Grotesk", "Avenir Next", "Segoe UI", ui-sans-serif,
+    system-ui, sans-serif;
+  --font-body: "Inter", "Segoe UI", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", "SFMono-Regular", ui-monospace, Menlo,
+    Consolas, monospace;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-family: var(--font-body);
+}
+
+body {
+  background-color: #F5F7FB;
+  color: #0E1220;
+}
+
+::selection {
+  background-color: #FF6B4A;
+  color: #ffffff;
+}
+
+/* Reusable underline-grow link */
+.link-underline {
+  position: relative;
+  text-decoration: none;
+}
+.link-underline::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 0%;
+  height: 1.5px;
+  background-color: currentColor;
+  transition: width 0.25s ease;
+}
+.link-underline:hover::after {
+  width: 100%;
+}
+
+/* Focus visibility for accessibility */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid #FF6B4A;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Circuit-style dotted grid background used behind hero panels */
+.bg-dot-grid {
+  background-image: radial-gradient(#AEB9DD 1px, transparent 1px);
+  background-size: 22px 22px;
+}
