@@ -100,7 +100,7 @@ export default function Footer() {
             © {year} {siteConfig.legalName}. All rights reserved.
           </p>
           <p className="text-xs text-brand-300">
-            Built with Next.js, TypeScript &amp; Tailwind CSS.
+            
           </p>
         </div>
       </Container>
