@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   },
   metadataBase: new URL(siteConfig.url),
   icons: {
-    icon: "/favicon.svg",
+    icon: "/trans2.png",
   },
 };
 
@@ -28,7 +28,7 @@ const organizationJsonLd = {
   "@type": "Organization",
   name: siteConfig.name,
   url: siteConfig.url,
-  logo: `${siteConfig.url}/favicon.svg`,
+  logo: `${siteConfig.url}/trans2.png`,
   description: siteConfig.description,
   email: siteConfig.email,
   telephone: siteConfig.phone,
