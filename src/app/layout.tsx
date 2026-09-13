@@ -5,6 +5,7 @@ import Footer from "@/components/layout/Footer";
 import FloatingSupportButton from "@/components/layout/FloatingSupportButton";
 import { siteConfig } from "@/lib/site-config";
 import { buildMetadata } from "@/lib/seo";
+import CookieConsentBanner from "@/components/cookies/CookieConsentBanner ";
 
 export const metadata: Metadata = {
   ...buildMetadata({
@@ -69,6 +70,7 @@ export default function RootLayout({
         </main>
         <Footer />
         <FloatingSupportButton />
+        <CookieConsentBanner />
       </body>
     </html>
   );
