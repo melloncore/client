@@ -14,7 +14,7 @@ import { siteConfig } from "@/lib/site-config";
 import { services, processSteps, testimonials, blogPosts } from "@/lib/data";
 
 export const metadata: Metadata = buildMetadata({
-  title: `${siteConfig.name} — Software, Cloud & AI Engineering Studio`,
+  title: `${siteConfig.name} — IT consulting, software & cloud engineering studio`,
   description: siteConfig.description,
   path: "/",
 });

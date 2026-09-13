@@ -9,12 +9,12 @@ import CookieConsentBanner from "@/components/cookies/CookieConsentBanner ";
 
 export const metadata: Metadata = {
   ...buildMetadata({
-    title: `${siteConfig.name} — Software, Cloud & AI Engineering Studio`,
+    title: `${siteConfig.name} — IT consulting, software & cloud engineering studio`,
     description: siteConfig.description,
     path: "/",
   }),
   title: {
-    default: `${siteConfig.name} — Software, Cloud & AI Engineering Studio`,
+    default: `${siteConfig.name} — IT consulting, software & cloud engineering studio`,
     template: `%s | ${siteConfig.name}`,
   },
   metadataBase: new URL(siteConfig.url),
