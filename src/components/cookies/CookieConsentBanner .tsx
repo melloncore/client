@@ -6,9 +6,6 @@ import { useEffect, useState } from "react";
 const CONSENT_COOKIE_NAME = "cookie_consent_choice";
 const CONSENT_COOKIE_MAX_AGE_HOURS = 24;
 
-// Plain, non-httpOnly client cookie — this is only a UI flag so the banner
-// knows not to reshow itself. It's separate from the server-side
-// `consentGiven` field on the Visitor record, which stays the source of truth.
 function getClientCookie(name: string): string | null {
   const match = document.cookie.match(new RegExp(`(?:^|; )${name}=([^;]*)`));
   return match ? decodeURIComponent(match[1]) : null;
