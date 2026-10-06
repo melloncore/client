@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import  "./globals.css";
+import "./globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import FloatingSupportButton from "@/components/layout/FloatingSupportButton";
 import { siteConfig } from "@/lib/site-config";
 import { buildMetadata } from "@/lib/seo";
-import CookieConsentBanner from "@/components/cookies/CookieConsentBanner ";
+import CookieConsentBanner from "@/components/cookies/CookieConsentBanner";
 
 export const metadata: Metadata = {
   ...buildMetadata({
