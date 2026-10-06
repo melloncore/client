@@ -1,12 +1,16 @@
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+const RAW_API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-if (API_BASE_URL === undefined) {
+if (RAW_API_URL === undefined) {
   throw new Error(
     "NEXT_PUBLIC_API_URL is not defined in the environment variables. Endpoint is required for API calls."
   );
 }
 
-const LANDING_URL = `${API_BASE_URL}/api/v1/landing`;
+const API_ORIGIN = RAW_API_URL.trim()
+  .replace(/\/+$/, "")
+  .replace(/\/api\/v1$/, "");
+
+const LANDING_URL = `${API_ORIGIN}/api/v1/landing`;
 
 export async function submitConsent(
   accepted: boolean,
