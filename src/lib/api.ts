@@ -6,6 +6,8 @@ if (RAW_API_URL === undefined) {
   );
 }
 
+// Works with "https://backend-pmz2.onrender.com", the same with "/api/v1",
+// or an empty string (same-origin proxy).
 const API_ORIGIN = RAW_API_URL.trim()
   .replace(/\/+$/, "")
   .replace(/\/api\/v1$/, "");
@@ -19,20 +21,15 @@ export async function submitConsent(
   try {
     const response = await fetch(`${LANDING_URL}/consent`, {
       method: "POST",
-      credentials: "include", // sends the visitor_id cookie
+      credentials: "include",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ accepted, ...(email ? { email } : {}) }),
     });
 
     if (!response.ok) {
-      console.error(
-        "Failed to submit consent:",
-        response.status,
-        await response.text()
-      );
+      console.error("Failed to submit consent:", response.status, await response.text());
       return null;
     }
-
     return await response.json();
   } catch (error) {
     console.error("Error submitting consent:", error);
@@ -44,14 +41,13 @@ export async function pingVisitor(): Promise<{ tracked: boolean } | null> {
   try {
     const response = await fetch(`${LANDING_URL}/ping`, {
       method: "GET",
-      credentials: "include", // lets the browser store the visitor_id cookie
+      credentials: "include",
     });
 
     if (!response.ok) {
       console.error("Failed to ping visitor:", response.status);
       return null;
     }
-
     return await response.json();
   } catch (error) {
     console.error("Error pinging visitor:", error);

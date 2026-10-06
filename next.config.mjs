@@ -6,6 +6,14 @@ const nextConfig = {
       { protocol: 'https', hostname: 'images.unsplash.com' },
     ],
   },
+  async rewrites() {
+    return [
+      {
+        source: '/api/:path*',
+        destination: 'https://backend-pmz2.onrender.com/api/:path*',
+      },
+    ];
+  },
 };
 
 export default nextConfig;

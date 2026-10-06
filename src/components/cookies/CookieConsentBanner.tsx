@@ -24,17 +24,13 @@ export default function CookieConsentBanner() {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
 
-  // true once /ping has succeeded, meaning the visitor_id cookie exists
-  const trackedRef = useRef(false);
-  // guards against React Strict Mode double-invoking the effect in dev
-  const pingStartedRef = useRef(false);
+  const trackedRef = useRef(false);      // true once /ping succeeded
+  const pingStartedRef = useRef(false);  // guards Strict Mode double effect
 
   useEffect(() => {
-    // Show the banner only if the visitor hasn't already chosen on this device.
     const alreadyChosen = getClientCookie(CONSENT_COOKIE_NAME);
     if (!alreadyChosen) setVisible(true);
 
-    // Fire the tracking ping once per page load, regardless of banner state.
     if (!pingStartedRef.current) {
       pingStartedRef.current = true;
       pingVisitor().then((res) => {
@@ -47,8 +43,7 @@ export default function CookieConsentBanner() {
     setSubmitting(true);
     setError("");
 
-    // If the initial ping hasn't succeeded yet (cold start, network blip),
-    // retry it first so the visitor_id cookie exists before consenting.
+    // Retry the ping if it hasn't succeeded yet (cold start, network blip).
     if (!trackedRef.current) {
       const res = await pingVisitor();
       trackedRef.current = !!res?.tracked;
@@ -71,7 +66,6 @@ export default function CookieConsentBanner() {
       );
       setVisible(false);
     } else {
-      // Keep the banner up so the visitor can retry.
       setError("Something went wrong. Please try again.");
     }
   }
