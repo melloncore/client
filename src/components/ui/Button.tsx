@@ -97,6 +97,7 @@ export default function Button(props: ButtonProps) {
   }
 
   const { href: _href, ...rest } = props as ClickButtonProps;
+  void _href;
   return (
     <button className={classes} {...rest}>
       {content}

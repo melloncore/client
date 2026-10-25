@@ -1,23 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { pingVisitor, submitConsent } from "@/lib/api";
-
-const CONSENT_COOKIE_NAME = "cookie_consent_choice";
-const CONSENT_COOKIE_MAX_AGE_HOURS = 24;
-
-function getClientCookie(name: string): string | null {
-  const match = document.cookie.match(new RegExp(`(?:^|; )${name}=([^;]*)`));
-  return match ? decodeURIComponent(match[1]) : null;
-}
-
-function setClientCookie(name: string, value: string, maxAgeHours: number) {
-  const maxAgeSeconds = maxAgeHours * 60 * 60;
-  const secure = window.location.protocol === "https:" ? "; Secure" : "";
-  document.cookie = `${name}=${encodeURIComponent(
-    value
-  )}; Path=/; Max-Age=${maxAgeSeconds}; SameSite=Lax${secure}`;
-}
+import { useMutation } from "@tanstack/react-query";
+import { pingVisitor, recordAnalyticsEvent, submitConsent } from "@/lib/api";
+import { getAnalyticsConsent, saveAnalyticsConsent } from "@/lib/consent";
 
 export default function CookieConsentBanner() {
   const [visible, setVisible] = useState(false);
@@ -26,27 +12,39 @@ export default function CookieConsentBanner() {
 
   const trackedRef = useRef(false);      // true once /ping succeeded
   const pingStartedRef = useRef(false);  // guards Strict Mode double effect
+  const pingMutation = useMutation({ mutationFn: pingVisitor });
+  const consentMutation = useMutation({
+    mutationFn: (accepted: boolean) => submitConsent(accepted),
+  });
+  const eventMutation = useMutation({ mutationFn: recordAnalyticsEvent });
+  const ping = pingMutation.mutate;
+  const pingAsync = pingMutation.mutateAsync;
 
   useEffect(() => {
-    const alreadyChosen = getClientCookie(CONSENT_COOKIE_NAME);
-    if (!alreadyChosen) setVisible(true);
+    const alreadyChosen = getAnalyticsConsent();
+    const timer = !alreadyChosen ? window.setTimeout(() => setVisible(true), 0) : undefined;
 
     if (!pingStartedRef.current) {
       pingStartedRef.current = true;
-      pingVisitor().then((res) => {
-        trackedRef.current = !!res?.tracked;
+      ping(undefined, {
+        onSuccess: (res) => { trackedRef.current = res.tracked; },
       });
     }
-  }, []);
+    return () => { if (timer !== undefined) window.clearTimeout(timer); };
+  }, [ping]);
 
   async function handleChoice(accepted: boolean) {
     setSubmitting(true);
     setError("");
 
     // Retry the ping if it hasn't succeeded yet (cold start, network blip).
-    if (!trackedRef.current) {
-      const res = await pingVisitor();
-      trackedRef.current = !!res?.tracked;
+    try {
+      if (!trackedRef.current) {
+        const res = await pingAsync();
+        trackedRef.current = res.tracked;
+      }
+    } catch {
+      trackedRef.current = false;
     }
 
     if (!trackedRef.current) {
@@ -55,18 +53,18 @@ export default function CookieConsentBanner() {
       return;
     }
 
-    const result = await submitConsent(accepted);
-    setSubmitting(false);
-
-    if (result?.success) {
-      setClientCookie(
-        CONSENT_COOKIE_NAME,
-        accepted ? "accepted" : "declined",
-        CONSENT_COOKIE_MAX_AGE_HOURS
-      );
+    try {
+      const result = await consentMutation.mutateAsync(accepted);
+      if (!result.success) throw new Error("Consent update failed");
+      saveAnalyticsConsent(accepted);
+      if (accepted) {
+        eventMutation.mutate({ surface: "client", type: "page_view", path: window.location.pathname });
+      }
       setVisible(false);
-    } else {
+    } catch {
       setError("Something went wrong. Please try again.");
+    } finally {
+      setSubmitting(false);
     }
   }
 

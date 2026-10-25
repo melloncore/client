@@ -1,4 +1,6 @@
 /** @type {import('next').NextConfig} */
+const backendUrl = process.env.BACKEND_URL?.replace(/\/+$/, "");
+
 const nextConfig = {
   reactStrictMode: true,
   images: {
@@ -7,10 +9,11 @@ const nextConfig = {
     ],
   },
   async rewrites() {
+    if (!backendUrl) return [];
     return [
       {
         source: '/api/:path*',
-        destination: 'https://backend-pmz2.onrender.com/api/:path*',
+        destination: `${backendUrl}/api/:path*`,
       },
     ];
   },

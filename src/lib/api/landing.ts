@@ -1,0 +1,12 @@
+import { apiRequest } from "./http";
+
+export async function submitConsent(accepted: boolean, email?: string): Promise<{ success: boolean }> {
+  return apiRequest("/landing/consent", {
+    method: "POST",
+    body: JSON.stringify({ accepted, ...(email ? { email } : {}) }),
+  });
+}
+
+export async function pingVisitor(): Promise<{ tracked: boolean }> {
+  return apiRequest("/landing/ping");
+}

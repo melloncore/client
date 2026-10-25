@@ -8,9 +8,9 @@ import { buildMetadata } from "@/lib/seo";
 import { team, values, stats } from "@/lib/data";
 
 export const metadata: Metadata = buildMetadata({
-  title: "About Mellon Core",
+  title: "About Mellon Strata Core",
   description:
-    "Mellon Core is a product engineering studio founded by former in-house engineering leads. Learn about our story, values and the team behind the work.",
+    "Mellon Strata Core is a product engineering studio founded by former in-house engineering leads. Learn about our story, values and the team behind the work.",
   path: "/about",
 });
 
@@ -20,14 +20,14 @@ export default function AboutPage() {
       <section className="border-b border-line bg-paper">
         <Container className="py-16 sm:py-24">
           <Badge tone="brand" dot>
-            About Mellon Core
+            About Mellon Strata Core
           </Badge>
           <h1 className="mt-6 max-w-2xl font-display text-4xl font-medium leading-[1.1] tracking-tight text-ink sm:text-5xl">
             Started by engineers who were tired of hand-offs that lost
             context.
           </h1>
           <p className="mt-6 max-w-2xl text-base leading-relaxed text-ink-soft sm:text-lg">
-            Mellon Core was founded in 2018 by two engineering leads who kept
+            Mellon Strata Core was founded in 2018 by two engineering leads who kept
             watching good projects stall between agencies, freelancers and
             in-house teams that never talked to each other. We built the
             studio we wished we could have hired: one team, accountable end

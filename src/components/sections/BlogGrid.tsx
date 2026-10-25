@@ -28,6 +28,14 @@ export default function BlogGrid({ posts }: { posts: BlogPost[] }) {
       {posts.map((post) => (
         <Link key={post.slug} href={`/blog/${post.slug}`} className="group">
           <Card hoverLift className="flex h-full flex-col">
+            {post.images?.[0] && (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={post.images[0].url}
+                alt={post.images[0].alt}
+                className="-mx-6 -mt-6 mb-5 aspect-[16/9] w-[calc(100%+3rem)] rounded-t-2xl object-cover sm:-mx-7 sm:-mt-7 sm:w-[calc(100%+3.5rem)]"
+              />
+            )}
             <Badge tone={categoryTone[post.category] ?? "neutral"}>
               {post.category}
             </Badge>

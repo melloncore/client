@@ -31,7 +31,7 @@ export default function Hero() {
             className="mt-6 max-w-lg text-base leading-relaxed text-ink-soft sm:text-lg animate-fade-up"
             style={{ animationDelay: "160ms" }}
           >
-            Nexlayer designs and ships web platforms, cloud infrastructure
+            Mellon Strata Core designs and ships web platforms, cloud infrastructure
             and AI-driven features for teams who need software that holds up
             after launch, not just at the demo.
           </p>

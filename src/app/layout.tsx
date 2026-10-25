@@ -6,6 +6,8 @@ import FloatingSupportButton from "@/components/layout/FloatingSupportButton";
 import { siteConfig } from "@/lib/site-config";
 import { buildMetadata } from "@/lib/seo";
 import CookieConsentBanner from "@/components/cookies/CookieConsentBanner";
+import QueryProvider from "@/components/QueryProvider";
+import AnalyticsTracker from "@/components/AnalyticsTracker";
 
 export const metadata: Metadata = {
   ...buildMetadata({
@@ -51,9 +53,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="flex min-h-screen flex-col bg-paper font-body text-ink antialiased">
+        <QueryProvider>
+          <AnalyticsTracker />
         <script
           type="application/ld+json"
-          // eslint-disable-next-line react/no-danger
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(organizationJsonLd),
           }}
@@ -70,7 +73,8 @@ export default function RootLayout({
         </main>
         <Footer />
         <FloatingSupportButton />
-        <CookieConsentBanner />
+          <CookieConsentBanner />
+        </QueryProvider>
       </body>
     </html>
   );

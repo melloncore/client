@@ -88,7 +88,7 @@ export default function ServiceDetailPage({ params }: ServicePageProps) {
 
       <Container as="section" className="py-16 sm:py-24">
         <h2 className="font-display text-2xl text-ink">
-          What's included
+          What&apos;s included
         </h2>
         <ul className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2">
           {service.deliverables.map((item) => (

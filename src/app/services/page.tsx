@@ -11,7 +11,7 @@ import { services, processSteps } from "@/lib/data";
 export const metadata: Metadata = buildMetadata({
   title: "Services",
   description:
-    "Product engineering, cloud infrastructure, AI & automation, product design, data & analytics, and technical consulting — explore what Nexlayer builds.",
+    "Product engineering, cloud infrastructure, AI & automation, product design, data & analytics, and technical consulting — explore what Mellon Strata Core builds.",
   path: "/services",
 });
 

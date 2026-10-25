@@ -10,7 +10,7 @@ import { siteConfig } from "@/lib/site-config";
 export const metadata: Metadata = buildMetadata({
   title: "Contact",
   description:
-    "Get in touch with Nexlayer to discuss a project, ask about our services, or request support. We reply within one business day.",
+    "Get in touch with Mellon Strata Core to discuss a project, ask about our services, or request support. We reply within one business day.",
   path: "/contact",
 });
 
@@ -48,10 +48,10 @@ export default function ContactPage() {
             Contact
           </Badge>
           <h1 className="mt-6 max-w-2xl font-display text-4xl font-medium leading-[1.1] tracking-tight text-ink sm:text-5xl">
-            Tell us what you're building.
+            Tell us what you&apos;re building.
           </h1>
           <p className="mt-6 max-w-2xl text-base leading-relaxed text-ink-soft sm:text-lg">
-            Whether it's a full product build, a stuck piece of
+            Whether it&apos;s a full product build, a stuck piece of
             infrastructure, or a question about scope — fill out the form
             and a member of our team will follow up directly, no sales
             funnel in between.

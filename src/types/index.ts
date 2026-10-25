@@ -30,6 +30,21 @@ export interface BlogPost {
   date: string;
   readTime: string;
   author: string;
+  sections?: BlogSection[];
+  content?: string;
+  images?: BlogImage[];
+}
+
+export interface BlogImage {
+  url: string;
+  alt: string;
+}
+
+export interface BlogSection {
+  id: string;
+  heading: string;
+  paragraphs: string[];
+  takeaways?: string[];
 }
 
 export interface ProcessStep {

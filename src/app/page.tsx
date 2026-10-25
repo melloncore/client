@@ -7,7 +7,7 @@ import Hero from "@/components/sections/Hero";
 import ServicesGrid from "@/components/sections/ServicesGrid";
 import ProcessSteps from "@/components/sections/ProcessSteps";
 import Testimonials from "@/components/sections/Testimonials";
-import BlogGrid from "@/components/sections/BlogGrid";
+import LatestBlogPosts from "@/components/sections/LatestBlogPosts";
 import CTASection from "@/components/sections/CTASection";
 import { buildMetadata } from "@/lib/seo";
 import { siteConfig } from "@/lib/site-config";
@@ -87,7 +87,7 @@ export default function HomePage() {
             </Link>
           </div>
           <div className="mt-12">
-            <BlogGrid posts={blogPosts.slice(0, 3)} />
+            <LatestBlogPosts posts={blogPosts.slice(0, 3)} />
           </div>
         </Container>
       </div>

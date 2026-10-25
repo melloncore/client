@@ -1,9 +1,11 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
+import { useMutation } from "@tanstack/react-query";
 import { CheckCircle2, Loader2, ArrowUpRight } from "lucide-react";
 import { Input, TextArea } from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
+import { sendContactMessage } from "@/lib/api";
 
 type Status = "idle" | "submitting" | "success";
 
@@ -17,13 +19,27 @@ const budgets = [
 
 export default function ContactForm() {
   const [status, setStatus] = useState<Status>("idle");
+  const [error, setError] = useState("");
+  const contactMutation = useMutation({ mutationFn: sendContactMessage });
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setStatus("submitting");
-    // Simulated submit — wire this up to your form endpoint / API route.
-    await new Promise((resolve) => setTimeout(resolve, 900));
-    setStatus("success");
+    setError("");
+    const form = new FormData(event.currentTarget);
+    try {
+      await contactMutation.mutateAsync({
+        name: String(form.get("name") ?? ""),
+        email: String(form.get("email") ?? ""),
+        company: String(form.get("company") ?? ""),
+        budget: String(form.get("budget") ?? ""),
+        message: String(form.get("message") ?? ""),
+      });
+      setStatus("success");
+    } catch (cause) {
+      setStatus("idle");
+      setError(cause instanceof Error ? cause.message : "We couldn't send your message. Please try again.");
+    }
   }
 
   if (status === "success") {
@@ -55,6 +71,11 @@ export default function ContactForm() {
       className="rounded-2xl border border-line bg-surface p-6 sm:p-8"
       noValidate
     >
+      {error && (
+        <p role="alert" className="mb-5 rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-700">
+          {error}
+        </p>
+      )}
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
         <Input label="Full name" htmlFor="name" name="name" required placeholder="Jordan Lee" />
         <Input

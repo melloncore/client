@@ -10,10 +10,10 @@ export default function NotFound() {
         404
       </Badge>
       <h1 className="mt-6 font-display text-4xl font-medium tracking-tight text-ink sm:text-5xl">
-        This page doesn't exist.
+        This page doesn&apos;t exist.
       </h1>
       <p className="mt-4 max-w-md text-base text-ink-soft">
-        The page you're looking for may have moved or never existed. Try
+        The page you&apos;re looking for may have moved or never existed. Try
         heading back home, or reach out if you think this is a mistake.
       </p>
       <div className="mt-8 flex flex-col gap-3 sm:flex-row">

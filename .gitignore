@@ -17,8 +17,11 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# local env files
-.env*.local
+# Environment files (keep only safe templates in source control).
+.env
+.env.*
+!.env.example
+!.env.production.example
 
 # typescript
 *.tsbuildinfo

@@ -174,7 +174,7 @@ export const team: TeamMember[] = [
   {
     name: "Daniel Cho",
     role: "Co-founder & Head of Engineering",
-    bio: "Built and sold a dev-tools startup before starting Nexlayer. Still reviews every architecture doc.",
+    bio: "Built and sold a dev-tools startup before joining the Mellon Strata Core team. Still reviews every architecture doc.",
     initials: "DC",
   },
   {
@@ -206,7 +206,7 @@ export const team: TeamMember[] = [
 export const testimonials: Testimonial[] = [
   {
     quote:
-      "Nexlayer rebuilt our checkout flow in six weeks and cut cart abandonment by a third. They explained every trade-off along the way instead of just handing us a black box.",
+      "The team rebuilt our checkout flow in six weeks and cut cart abandonment by a third. They explained every trade-off along the way instead of just handing us a black box.",
     name: "Elena Marsh",
     role: "VP of Product",
     company: "Fielder Logistics",
@@ -235,8 +235,38 @@ export const blogPosts: BlogPost[] = [
       "Pricing pages don't tell you the whole story. Here's the checklist we run before recommending AWS, GCP or Azure to a client.",
     category: "Cloud",
     date: "2026-07-02",
-    readTime: "7 min read",
+    readTime: "3 min read",
     author: "Tomas Varga",
+    sections: [
+      {
+        id: "start-with-the-workload",
+        heading: "Start with the workload, not the logo",
+        paragraphs: [
+          "Cloud platforms overlap far more than their marketing suggests. Before comparing services, write down what the system needs to do: expected traffic, data location, availability targets, integrations, and the skills your team already has.",
+          "Those constraints narrow the field quickly. A team already invested in a provider may get more value from improving its architecture than from moving for a feature that sounds attractive in a comparison chart.",
+        ],
+        takeaways: [
+          "Describe requirements in measurable terms.",
+          "Include team familiarity and existing integrations in the decision.",
+        ],
+      },
+      {
+        id: "model-the-whole-cost",
+        heading: "Model the whole cost",
+        paragraphs: [
+          "Compute prices are only one part of the bill. Estimate storage growth, database usage, backups, observability, support, and data leaving the provider. Use a realistic traffic profile and include both steady-state and peak periods.",
+          "Then make the estimate easy to revisit. Tag resources by product or team, set budget alerts, and review actual usage after launch. A forecast is useful only when it is compared with what the system really consumes.",
+        ],
+      },
+      {
+        id: "make-the-decision-reversible",
+        heading: "Keep the decision reversible",
+        paragraphs: [
+          "A provider choice does not need to become a permanent bet. Document why you chose it, isolate provider-specific code where that is practical, and avoid building portability for services you may never leave.",
+          "Choose the platform that best fits today's requirements and operating capacity. Revisit the decision when those requirements change, not whenever a new product announcement appears.",
+        ],
+      },
+    ],
   },
   {
     slug: "shipping-llm-features-without-the-hype",
@@ -245,48 +275,198 @@ export const blogPosts: BlogPost[] = [
       "Most AI features fail from scope, not the model. A practical framework for deciding what's worth building.",
     category: "AI",
     date: "2026-06-18",
-    readTime: "9 min read",
+    readTime: "3 min read",
     author: "Aisha Bello",
+    sections: [
+      {
+        id: "choose-a-real-user-problem",
+        heading: "Choose a real user problem",
+        paragraphs: [
+          "Start with a task users already struggle to complete. Describe the current workflow, where time is lost, and what a successful result looks like. If the problem cannot be explained without mentioning a model, it may be a technology demo rather than a product feature.",
+          "Look for work where a useful first draft, a ranked set of options, or a natural-language interface helps. Keep a human in control wherever mistakes would be costly.",
+        ],
+      },
+      {
+        id: "build-an-evaluation-before-the-prompt",
+        heading: "Build an evaluation before tuning prompts",
+        paragraphs: [
+          "Collect representative examples and define what counts as correct, incomplete, unsafe, or unhelpful. Include difficult cases, not just the examples that make the feature look good. This small evaluation set gives the team something repeatable to measure as prompts and models change.",
+          "Review quality alongside latency and cost. A response that is marginally better but too slow or expensive for the workflow may not be an improvement.",
+        ],
+        takeaways: [
+          "Test the feature against real tasks and edge cases.",
+          "Track quality, latency, and cost together.",
+        ],
+      },
+      {
+        id: "release-in-small-steps",
+        heading: "Release in small steps",
+        paragraphs: [
+          "Begin with a narrow audience and a clear fallback. Let users correct results, record where they do so, and use that feedback to improve the workflow. Make it possible to disable or roll back the feature without taking down unrelated product functionality.",
+          "The best first version is not the one with the most impressive demo. It is the smallest version that measurably improves a real task and can be operated responsibly.",
+        ],
+      },
+    ],
   },
   {
     slug: "design-systems-that-survive-contact-with-a-roadmap",
     title: "Design systems that survive contact with a roadmap",
     excerpt:
-      "Most design systems rot within a year. The ones that last share three habits we look for in every audit.",
+      "Design systems can lose consistency as products grow. These habits help keep shared patterns useful as teams and roadmaps change.",
     category: "Design",
     date: "2026-05-27",
-    readTime: "6 min read",
+    readTime: "3 min read",
     author: "Priya Ramaswamy",
+    sections: [
+      {
+        id: "treat-it-as-a-product",
+        heading: "Treat the system as a product",
+        paragraphs: [
+          "A design system has users: the people building and maintaining the product. Give them a clear way to find components, understand when to use them, and ask for improvements. A component without guidance is an implementation detail, not a shared standard.",
+          "Keep ownership visible. Someone should review changes, resolve conflicting patterns, and communicate what has changed to the teams relying on the system.",
+        ],
+      },
+      {
+        id: "make-the-common-path-easy",
+        heading: "Make the common path easy",
+        paragraphs: [
+          "Start with the patterns that appear across the product: typography, spacing, forms, navigation, and feedback states. Good defaults should cover the common case without preventing teams from handling real product differences.",
+          "When a team works around a component, investigate why. The workaround may reveal a missing state, an unclear API, or a pattern that should not be standardized in the first place.",
+        ],
+        takeaways: [
+          "Prioritize repeated, high-impact interface patterns.",
+          "Treat workarounds as feedback about the system.",
+        ],
+      },
+      {
+        id: "keep-it-healthy",
+        heading: "Keep it healthy with deliberate maintenance",
+        paragraphs: [
+          "Review the system as the roadmap changes. Remove obsolete patterns, document breaking changes, and make migration paths clear. Small maintenance work is easier to schedule than a major redesign after every product team has created its own variation.",
+          "Measure adoption by looking at consistency and delivery friction, not just the number of components in the library. A smaller, trusted system is more useful than a large one teams avoid.",
+        ],
+      },
+    ],
   },
   {
     slug: "the-real-cost-of-technical-debt",
-    title: "The real cost of technical debt (with numbers)",
+    title: "The real cost of technical debt",
     excerpt:
-      "We tracked delivery velocity across twelve client codebases before and after debt paydown sprints. Here's what changed.",
+      "Technical debt rarely arrives as a single outage. Learn how to connect it to repeated delivery friction and prioritize repayment.",
     category: "Engineering",
     date: "2026-05-04",
-    readTime: "8 min read",
+    readTime: "3 min read",
     author: "Daniel Cho",
+    sections: [
+      {
+        id: "describe-the-impact",
+        heading: "Describe the impact, not just the smell",
+        paragraphs: [
+          "A long list of old dependencies and awkward modules does not tell a product team what to do next. Connect each issue to a recurring cost: slower changes, more incidents, longer onboarding, or work that must be repeated.",
+          "Use concrete examples from recent work. If a change regularly touches five places because there is no shared boundary, record the extra effort and the bugs that have escaped. That makes the trade-off visible without pretending every cleanup has the same value.",
+        ],
+      },
+      {
+        id: "prioritize-by-friction",
+        heading: "Prioritize the friction users and teams feel",
+        paragraphs: [
+          "Rank debt by how often it interrupts important work and how much risk it creates. A small fix in a high-traffic workflow may be more valuable than a broad rewrite of code that rarely changes.",
+          "Prefer changes that reduce multiple kinds of friction at once: a focused test suite can make releases safer and help new engineers understand expected behavior. Keep the scope small enough to ship and verify.",
+        ],
+        takeaways: [
+          "Tie debt items to repeated delivery or reliability costs.",
+          "Choose focused improvements that can be measured after release.",
+        ],
+      },
+      {
+        id: "protect-capacity",
+        heading: "Protect capacity and measure the result",
+        paragraphs: [
+          "If every sprint is planned to the limit, debt work will always lose to the next feature. Reserve explicit capacity for maintenance and agree on the outcomes before the work starts.",
+          "Afterward, check whether the expected friction changed: did the task get easier to modify, did incidents fall, or did the team spend less time on repetitive steps? Use that evidence to guide the next investment.",
+        ],
+      },
+    ],
   },
   {
     slug: "how-we-structure-a-two-week-sprint",
     title: "How we structure a two-week sprint",
     excerpt:
-      "The exact cadence, ceremonies and artifacts we use to keep client work predictable without slowing it down.",
+      "A practical sprint cadence for keeping work visible, feedback timely, and delivery predictable without adding unnecessary process.",
     category: "Process",
     date: "2026-04-21",
-    readTime: "5 min read",
+    readTime: "3 min read",
     author: "Lucas Ferreira",
+    sections: [
+      {
+        id: "plan-an-outcome",
+        heading: "Plan around an outcome",
+        paragraphs: [
+          "A sprint starts with a small, testable outcome rather than a full calendar of assigned tasks. The team reviews the most important work, calls out dependencies, and agrees what will count as done.",
+          "Keep the plan honest. If a task is uncertain, make room for a short investigation instead of presenting a guess as a commitment. The goal is to create a useful forecast, not to eliminate change.",
+        ],
+      },
+      {
+        id: "keep-feedback-flowing",
+        heading: "Keep feedback flowing during the sprint",
+        paragraphs: [
+          "Work in progress should be visible, and blockers should be raised early. A brief daily check-in is enough when the board is current and the team can talk directly about decisions.",
+          "Share working software with stakeholders before the end of the sprint. Short feedback loops expose misunderstandings while there is still time to adjust the approach.",
+        ],
+        takeaways: [
+          "Make work, ownership, and blockers visible.",
+          "Get feedback on working increments, not just slide decks.",
+        ],
+      },
+      {
+        id: "close-the-loop",
+        heading: "Close the loop",
+        paragraphs: [
+          "At the end, demonstrate what changed and compare it with the intended outcome. Record decisions and unfinished work so the next cycle starts with context rather than guesswork.",
+          "Use a short retrospective to choose one improvement to try next sprint. A process only gets better when teams make a change and check whether it helped.",
+        ],
+      },
+    ],
   },
   {
     slug: "dashboards-nobody-looks-at",
     title: "Why most analytics dashboards go unused",
     excerpt:
-      "A dashboard nobody opens isn't a data problem, it's a design problem. Notes from a dozen internal-tools audits.",
+      "A practical approach to choosing useful metrics, designing around decisions, and improving dashboard adoption.",
     category: "Data",
     date: "2026-03-30",
-    readTime: "6 min read",
+    readTime: "3 min read",
     author: "Maren Okafor",
+    sections: [
+      {
+        id: "start-with-the-decision",
+        heading: "Start with the decision",
+        paragraphs: [
+          "Before adding a chart, ask what someone should decide or do after seeing it. If there is no clear action, the metric may belong in a report or nowhere at all.",
+          "Talk to the people who will use the dashboard. Learn what they check today, how often they need an answer, and what context they need to trust it. That conversation usually reveals a better starting point than a list of available database fields.",
+        ],
+      },
+      {
+        id: "make-data-understandable",
+        heading: "Make the data understandable",
+        paragraphs: [
+          "Give metrics plain-language names, define how they are calculated, and show when the data was last updated. Include useful comparisons and let people reach the detail behind a surprising change.",
+          "A single source of truth matters, but so does explaining its limits. If a metric is delayed, sampled, or incomplete, say so where the user sees it.",
+        ],
+        takeaways: [
+          "Tie every view to a specific audience and decision.",
+          "Make definitions, freshness, and limitations visible.",
+        ],
+      },
+      {
+        id: "iterate-with-usage",
+        heading: "Iterate with real usage",
+        paragraphs: [
+          "Release a small set of views and observe whether they fit the workflow. Ask users what they searched for, what they could not find, and what action they took after checking the numbers.",
+          "Remove charts that do not help. A focused dashboard that answers a few recurring questions is easier to maintain and more likely to earn a place in someone's routine.",
+        ],
+      },
+    ],
   },
 ];
 

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Container from "@/components/ui/Container";
 import Badge from "@/components/ui/Badge";
-import BlogGrid from "@/components/sections/BlogGrid";
+import BlogArchive from "@/components/sections/BlogArchive";
 import CTASection from "@/components/sections/CTASection";
 import { buildMetadata } from "@/lib/seo";
 import { blogPosts } from "@/lib/data";
@@ -9,7 +9,7 @@ import { blogPosts } from "@/lib/data";
 export const metadata: Metadata = buildMetadata({
   title: "Blog",
   description:
-    "Notes on product engineering, cloud infrastructure, AI, design systems and running technical teams — from the Nexlayer team.",
+    "Notes on product engineering, cloud infrastructure, AI, design systems and running technical teams — from the Mellon Strata Core team.",
   path: "/blog",
 });
 
@@ -33,13 +33,13 @@ export default function BlogPage() {
       </section>
 
       <Container as="section" className="py-16 sm:py-24">
-        <BlogGrid posts={blogPosts} />
+        <BlogArchive posts={blogPosts} />
       </Container>
 
       <CTASection
-        eyebrow="Stay in the loop"
-        title="Want notes like these in your inbox?"
-        description="One email a month, no more. Practical write-ups only — never a newsletter that's secretly a sales pitch."
+        eyebrow="Continue the conversation"
+        title="Have a question about something you read?"
+        description="Talk with our team about the ideas here or the technical challenge you are working through."
         primaryLabel="Get in touch"
         secondaryLabel="Explore services"
       />
