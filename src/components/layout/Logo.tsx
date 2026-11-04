@@ -11,11 +11,17 @@ export default function Logo({ onDark = false }: LogoProps) {
   return (
     <Link
       href="/"
-      className="inline-flex items-center gap-2 font-display text-xl font-medium tracking-tight"
+      className="inline-flex min-w-0 items-center gap-2 font-display text-base font-medium tracking-tight sm:text-xl"
       aria-label={`${siteConfig.name} — home`}
     >
-      <Image src={LogoImage} alt={`${siteConfig.name} — home`} width={50} height={50} />
-      <span className={onDark ? "text-white" : "text-ink"}>
+      <Image
+        src={LogoImage}
+        alt={`${siteConfig.name} — home`}
+        width={50}
+        height={50}
+        className="h-10 w-10 shrink-0 sm:h-[50px] sm:w-[50px]"
+      />
+      <span className={`min-w-0 truncate ${onDark ? "text-white" : "text-ink"}`}>
         {siteConfig.name}
       </span>
     </Link>

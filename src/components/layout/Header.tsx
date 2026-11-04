@@ -29,14 +29,16 @@ export default function Header() {
   }, [open]);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-line bg-paper/85 backdrop-blur-md">
+    <header
+      className={cn(
+        "sticky top-0 z-50 border-b border-line",
+        open ? "bg-paper" : "bg-paper/85 backdrop-blur-md",
+      )}
+    >
       <Container className="flex h-16 sm:h-20 items-center justify-between">
         <Logo />
 
-        <nav
-          className="hidden lg:flex items-center gap-8"
-          aria-label="Primary"
-        >
+        <nav className="hidden lg:flex items-center gap-8" aria-label="Primary">
           {siteConfig.nav.map((item) => {
             const active =
               item.href === "/"
@@ -48,7 +50,7 @@ export default function Header() {
                 href={item.href}
                 className={cn(
                   "link-underline text-sm font-medium transition-colors",
-                  active ? "text-ink" : "text-ink-soft hover:text-ink"
+                  active ? "text-ink" : "text-ink-soft hover:text-ink",
                 )}
                 aria-current={active ? "page" : undefined}
               >
@@ -78,16 +80,14 @@ export default function Header() {
       {/* Mobile menu panel */}
       <div
         id="mobile-menu"
+        aria-hidden={!open}
         className={cn(
-          "lg:hidden fixed inset-x-0 top-16 sm:top-20 bottom-0 z-40 bg-paper transition-transform duration-300 ease-out",
-          open ? "translate-x-0" : "translate-x-full pointer-events-none"
+          "lg:hidden fixed inset-x-0 top-16 sm:top-20 bottom-0 z-40 overflow-y-auto border-t border-line bg-paper shadow-lg transition-[opacity,visibility] duration-200 ease-out",
+          open ? "visible opacity-100" : "invisible pointer-events-none opacity-0",
         )}
       >
-        <Container className="flex h-full flex-col justify-between py-8">
-          <nav
-            className="flex flex-col gap-1"
-            aria-label="Mobile"
-          >
+        <Container className="flex h-full flex-col justify-between py-8 ">
+          <nav className="flex flex-col gap-1 " aria-label="Mobile">
             {siteConfig.nav.map((item) => {
               const active =
                 item.href === "/"
@@ -99,7 +99,7 @@ export default function Header() {
                   href={item.href}
                   className={cn(
                     "flex items-center justify-between border-b border-line py-4 font-display text-2xl",
-                    active ? "text-coral-500" : "text-ink"
+                    active ? "text-coral-500" : "text-ink",
                   )}
                 >
                   {item.label}

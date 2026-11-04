@@ -1,3 +1,4 @@
+import { FloatingItem } from "@/components/ui/FloatingField";
 import type {
   Service,
   TeamMember,
@@ -6,7 +7,31 @@ import type {
   ProcessStep,
   ValueItem,
   Stat,
-} from "@/types";
+ } from "@/types";
+
+export const items: FloatingItem[] = [
+  { label: "docker", src: "/docker.svg", kind: "logo" },
+  { label: "angular", src: "/angular.svg", kind: "logo" },
+  { label: "apple", src: "/apple.svg", kind: "logo" },
+  { label: "figma", src: "/figma.svg", kind: "logo" },
+  { label: "dell", src: "/dell.svg", kind: "logo" },
+  { label: "github", src: "/github.svg", kind: "logo" },
+  { label: "hp", src: "/hp.svg", kind: "logo" },
+  { label: "intel", src: "/intel.svg", kind: "logo" },
+  { label: "java", src: "/java.svg", kind: "logo" },
+  { label: "javascript", src: "/javascript.svg", kind: "logo" },
+  { label: "linux", src: "/linux-tux.svg", kind: "logo" },
+  { label: "ms", src: "/microsoft.svg", kind: "logo" },
+  { label: "nvida", src: "/nvidia-geforce-rtx.svg", kind: "logo" },
+  { label: "nodejs", src: "/nodejs.svg", kind: "logo" },
+  { label: "nvida2", src: "/nvidia.svg", kind: "logo" },
+  { label: "post", src: "/postgresql.svg", kind: "logo" },
+  { label: "pyt", src: "/python.svg", kind: "logo" },
+  { label: "react", src: "/react.svg", kind: "logo" },
+  { label: "sam", src: "/samsung.svg", kind: "logo" },
+  { label: "type", src: "/typescript.svg", kind: "logo" },
+];
+
 
 export const services: Service[] = [
   {
