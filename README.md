@@ -113,7 +113,8 @@ The client runs at `http://localhost:3000`; admin and marketplace run at
 same-origin API proxy, so localhost cookies are shared across app ports.
 The client and marketplace use the same analytics-consent cookie. In
 production, set `NEXT_PUBLIC_COOKIE_DOMAIN` to the shared parent domain to
-share that consent and the visitor cookie across app subdomains.
+share that consent and the visitor cookie across app subdomains (for example,
+`.melloncore.com`, without a URL scheme or path).
 
 API request helpers are grouped in `src/lib/api/` by concern (`contact`,
 `analytics`, and `landing`) with shared HTTP handling in `http.ts`. Components
