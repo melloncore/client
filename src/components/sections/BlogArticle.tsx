@@ -1,14 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { useQuery } from "@tanstack/react-query";
 import { ArrowLeft, ArrowUpRight, Calendar, Clock, User } from "lucide-react";
 import Container from "@/components/ui/Container";
 import Badge from "@/components/ui/Badge";
 import type { BadgeTone } from "@/components/ui/Badge";
 import BlogGrid from "@/components/sections/BlogGrid";
 import CTASection from "@/components/sections/CTASection";
-import { blogApi } from "@/lib/api/blog";
+import { usePublishedBlogPost, usePublishedBlogPosts } from "@/lib/api";
 import { ApiError } from "@/lib/api/http";
 import { blogPosts } from "@/lib/data";
 import { siteConfig } from "@/lib/site-config";
@@ -31,20 +30,11 @@ function formatDate(iso: string) {
 }
 
 export default function BlogArticle({ slug }: { slug: string }) {
-  const postQuery = useQuery({
-    queryKey: ["public-blog-post", slug],
-    queryFn: () => blogApi.getPublished(slug),
-    initialData: blogPosts.find((item) => item.slug === slug),
-    initialDataUpdatedAt: 0,
-    staleTime: 60_000,
-  });
-  const postsQuery = useQuery({
-    queryKey: ["public-blog-posts"],
-    queryFn: blogApi.listPublished,
-    initialData: blogPosts,
-    initialDataUpdatedAt: 0,
-    staleTime: 60_000,
-  });
+  const postQuery = usePublishedBlogPost(
+    slug,
+    blogPosts.find((item) => item.slug === slug),
+  );
+  const postsQuery = usePublishedBlogPosts(blogPosts);
   const postNotFound = postQuery.error instanceof ApiError && postQuery.error.status === 404;
   const post = postNotFound ? undefined : postQuery.data;
 
@@ -74,12 +64,13 @@ export default function BlogArticle({ slug }: { slug: string }) {
     );
   }
 
-  const related = postsQuery.data
+  const availablePosts = postsQuery.data ?? blogPosts;
+  const related = availablePosts
     .filter((item) => item.slug !== post.slug && item.category === post.category)
     .slice(0, 3);
   const relatedPosts = related.length > 0
     ? related
-    : postsQuery.data.filter((item) => item.slug !== post.slug).slice(0, 3);
+    : availablePosts.filter((item) => item.slug !== post.slug).slice(0, 3);
   const articleUrl = `${siteConfig.url}/blog/${post.slug}`;
 
   return (

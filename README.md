@@ -103,19 +103,23 @@ button) are sized for touch. Reduced-motion preferences are respected in `global
 
 ## Environment and API
 
-Use `.env` for local development. Next.js automatically loads `.env.production`
-for production builds; copy `.env.production.example` to that filename and set
-`BACKEND_URL` to the backend origin. The browser uses the same-origin `/api/v1`
-path in production, which is proxied by `next.config.mjs`.
+Use `.env` for local development with `NEXT_PUBLIC_API_URL=http://localhost:4000`.
+Set `NEXT_PUBLIC_API_URL=https://backend-pmz2.onrender.com/api/v1` in
+`.env.production` for production. The browser calls the backend directly, so
+configure backend CORS to allow the client origin. Because the Render API
+hostname is cross-site from Melloncore, browser third-party-cookie restrictions
+may block visitor cookies; use a same-site API hostname such as
+`api.melloncore.com` if cookie-backed consent needs to work reliably.
 
 The client runs at `http://localhost:3000`; admin and marketplace run at
-`http://localhost:3001` and `http://localhost:3002`. All three use the
-same-origin API proxy, so localhost cookies are shared across app ports.
+`http://localhost:3001` and `http://localhost:3002`. All three call the local
+backend at `http://localhost:4000`.
 The client and marketplace use the same analytics-consent cookie. In
 production, set `NEXT_PUBLIC_COOKIE_DOMAIN` to the shared parent domain to
 share that consent and the visitor cookie across app subdomains (for example,
 `.melloncore.com`, without a URL scheme or path).
 
 API request helpers are grouped in `src/lib/api/` by concern (`contact`,
-`analytics`, and `landing`) with shared HTTP handling in `http.ts`. Components
-use React Query mutations for form submissions, consent, and analytics events.
+`analytics`, `landing`, and `blog`) with shared HTTP handling in `http.ts`.
+Components use the centralized hooks exported from `src/lib/api` so API queries
+and mutations share React Query caching and lifecycle handling.

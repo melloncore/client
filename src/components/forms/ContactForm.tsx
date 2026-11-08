@@ -1,11 +1,10 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-import { useMutation } from "@tanstack/react-query";
 import { CheckCircle2, Loader2, ArrowUpRight } from "lucide-react";
 import { Input, TextArea } from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
-import { sendContactMessage } from "@/lib/api";
+import { useSendContactMessage } from "@/lib/api";
 
 type Status = "idle" | "submitting" | "success";
 
@@ -20,7 +19,7 @@ const budgets = [
 export default function ContactForm() {
   const [status, setStatus] = useState<Status>("idle");
   const [error, setError] = useState("");
-  const contactMutation = useMutation({ mutationFn: sendContactMessage });
+  const contactMutation = useSendContactMessage();
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();

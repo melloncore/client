@@ -1,8 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { useMutation } from "@tanstack/react-query";
-import { pingVisitor, recordAnalyticsEvent, submitConsent } from "@/lib/api";
+import { useEffect, useState } from "react";
+import { useAnalyticsEvent, useSubmitConsent, useVisitorPing } from "@/lib/api";
 import { getAnalyticsConsent, saveAnalyticsConsent } from "@/lib/consent";
 
 export default function CookieConsentBanner() {
@@ -10,41 +9,30 @@ export default function CookieConsentBanner() {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
 
-  const trackedRef = useRef(false);      // true once /ping succeeded
-  const pingStartedRef = useRef(false);  // guards Strict Mode double effect
-  const pingMutation = useMutation({ mutationFn: pingVisitor });
-  const consentMutation = useMutation({
-    mutationFn: (accepted: boolean) => submitConsent(accepted),
-  });
-  const eventMutation = useMutation({ mutationFn: recordAnalyticsEvent });
-  const ping = pingMutation.mutate;
-  const pingAsync = pingMutation.mutateAsync;
+  const pingQuery = useVisitorPing();
+  const consentMutation = useSubmitConsent();
+  const eventMutation = useAnalyticsEvent();
 
   useEffect(() => {
     const alreadyChosen = getAnalyticsConsent();
     const timer = !alreadyChosen ? window.setTimeout(() => setVisible(true), 0) : undefined;
 
-    if (!pingStartedRef.current) {
-      pingStartedRef.current = true;
-      ping(undefined, {
-        onSuccess: (res) => { trackedRef.current = res.tracked; },
-      });
-    }
     return () => { if (timer !== undefined) window.clearTimeout(timer); };
-  }, [ping]);
+  }, []);
 
   async function handleChoice(accepted: boolean) {
     setSubmitting(true);
     setError("");
 
-    // Retry the ping if it hasn't succeeded yet (cold start, network blip).
     try {
-      if (!trackedRef.current) {
-        const res = await pingAsync();
-        trackedRef.current = res.tracked;
+      const pingResult = pingQuery.data?.tracked
+        ? pingQuery
+        : await pingQuery.refetch();
+      if (pingResult.isError) throw pingResult.error;
+      if (!pingResult.data?.tracked) {
+        throw new Error("The server did not confirm visitor tracking.");
       }
     } catch (cause) {
-      trackedRef.current = false;
       setSubmitting(false);
       setError(
         cause instanceof Error
@@ -54,14 +42,8 @@ export default function CookieConsentBanner() {
       return;
     }
 
-    if (!trackedRef.current) {
-      setSubmitting(false);
-      setError("The server did not confirm visitor tracking. Please try again.");
-      return;
-    }
-
     try {
-      const result = await consentMutation.mutateAsync(accepted);
+      const result = await consentMutation.mutateAsync({ accepted });
       if (!result.success) throw new Error("Consent update failed");
       saveAnalyticsConsent(accepted);
       if (accepted) {
@@ -98,14 +80,14 @@ export default function CookieConsentBanner() {
       <div className="flex gap-3 shrink-0">
         <button
           onClick={() => handleChoice(false)}
-          disabled={submitting}
+          disabled={submitting || pingQuery.isFetching || consentMutation.isPending}
           className="px-4 py-2 text-sm rounded-md border border-neutral-600 hover:bg-neutral-800 disabled:opacity-50"
         >
           Decline
         </button>
         <button
           onClick={() => handleChoice(true)}
-          disabled={submitting}
+          disabled={submitting || pingQuery.isFetching || consentMutation.isPending}
           className="px-4 py-2 text-sm rounded-md bg-white text-neutral-900 hover:bg-neutral-200 disabled:opacity-50"
         >
           Accept

@@ -1,23 +1,16 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
 import { Search, X } from "lucide-react";
 import BlogGrid from "@/components/sections/BlogGrid";
-import { blogApi } from "@/lib/api/blog";
+import { usePublishedBlogPosts } from "@/lib/api";
 import type { BlogPost } from "@/types";
 
 export default function BlogArchive({ posts }: { posts: BlogPost[] }) {
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState("All");
-  const postsQuery = useQuery({
-    queryKey: ["public-blog-posts"],
-    queryFn: blogApi.listPublished,
-    initialData: posts,
-    initialDataUpdatedAt: 0,
-    staleTime: 60_000,
-  });
-  const currentPosts = postsQuery.data;
+  const postsQuery = usePublishedBlogPosts(posts);
+  const currentPosts = postsQuery.data ?? posts;
   const categories = ["All", ...new Set(currentPosts.map((post) => post.category))];
 
   const filteredPosts = useMemo(() => {
