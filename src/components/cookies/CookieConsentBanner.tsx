@@ -43,13 +43,20 @@ export default function CookieConsentBanner() {
         const res = await pingAsync();
         trackedRef.current = res.tracked;
       }
-    } catch {
+    } catch (cause) {
       trackedRef.current = false;
+      setSubmitting(false);
+      setError(
+        cause instanceof Error
+          ? `Visitor check failed: ${cause.message}`
+          : "Visitor check failed. Please try again.",
+      );
+      return;
     }
 
     if (!trackedRef.current) {
       setSubmitting(false);
-      setError("Couldn't reach the server. Please try again.");
+      setError("The server did not confirm visitor tracking. Please try again.");
       return;
     }
 
@@ -61,8 +68,12 @@ export default function CookieConsentBanner() {
         eventMutation.mutate({ surface: "client", type: "page_view", path: window.location.pathname });
       }
       setVisible(false);
-    } catch {
-      setError("Something went wrong. Please try again.");
+    } catch (cause) {
+      setError(
+        cause instanceof Error
+          ? `Could not save your choice: ${cause.message}`
+          : "Could not save your choice. Please try again.",
+      );
     } finally {
       setSubmitting(false);
     }
