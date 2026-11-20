@@ -1,4 +1,4 @@
-import { getPublishedPosts } from "@/lib/Blog";
+import { getPublishedPosts } from "@/lib/blog";
 import type { Metadata } from "next";
 import BlogList from "./BlogList";
 

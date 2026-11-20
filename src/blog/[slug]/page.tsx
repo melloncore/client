@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import styles from "@/components/blog/blog.module.css";
-import { formatPostDate, getPublishedPost, optimizedImage } from "@/lib/Blog";
+import { formatPostDate, getPublishedPost, optimizedImage } from "@/lib/blog";
 
 export const dynamic = "force-dynamic";
 
