@@ -1,39 +1,16 @@
 import Link from "next/link";
-import {
-  categories,
-  dict,
-  flagshipProducts,
-  productsByGroup,
-  type Locale,
-} from "@/content/site";
+import { dict, showcaseProducts, type Locale } from "@/content/site";
 
 interface Slot { key: string; hex: string; label: string; items: string[] }
 
+// The six major categories. The first four sit on the ring; the rest show as chips underneath.
 function slotsFor(locale: Locale): Slot[] {
-  const software = categories.find((c) => c.id === "software")!;
-  const hardware = categories.find((c) => c.id === "hardware")!;
-  const engineering = productsByGroup("engineering");
-  const engineeringGroup = software.groups.find((g) => g.id === "engineering")!;
-  return [
-    ...flagshipProducts.map((p) => ({
-      key: p.slug,
-      hex: p.hex,
-      label: p.name[locale],
-      items: p.features?.[locale] ?? [],
-    })),
-    {
-      key: "engineering",
-      hex: engineering[0].hex,
-      label: engineeringGroup.label[locale],
-      items: engineering.map((p) => p.name[locale]),
-    },
-    {
-      key: "hardware",
-      hex: productsByGroup("devices")[0].hex,
-      label: hardware.label[locale],
-      items: hardware.groups.map((g) => g.label[locale]),
-    },
-  ];
+  return showcaseProducts.map((p) => ({
+    key: p.slug,
+    hex: p.hex,
+    label: p.name[locale],
+    items: p.features?.[locale] ?? [],
+  }));
 }
 
 // Angle in degrees (0 = right, clockwise, -90 = top) -> unit vector

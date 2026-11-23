@@ -135,7 +135,7 @@ export default function Header({ locale }: { locale: Locale }) {
             </Link>
           </li>
           <li>
-            <Link className={link} href={`${home}#blog`}>
+            <Link className={link} href={`${home}/blog`}>
               {t.nav.blog}
             </Link>
           </li>
@@ -260,7 +260,7 @@ export default function Header({ locale }: { locale: Locale }) {
             <li className="text-2xl font-extralight">
               <Link
                 onClick={() => setMenu(false)}
-                href={`${home}#blog`}
+                href={`${home}/blog`}
                 className="block py-2 text-muted"
               >
                 {t.nav.blog}

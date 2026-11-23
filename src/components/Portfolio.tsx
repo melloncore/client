@@ -11,8 +11,10 @@ export default function Portfolio({ locale }: { locale: Locale }) {
     <li>
       <Link href={href(p)} className="flex items-center gap-3 border-b border-line/10 py-3 hover:bg-line/5">
         <span className="h-2 w-2 shrink-0 rounded-full" style={{ background: p.hex }} />
-        <span className="w-20 shrink-0 font-medium">{p.name[locale]}</span>
-        <span className="text-sm text-muted">{p.short[locale]}</span>
+        <span className="flex min-w-0 flex-col">
+          <span className="font-medium">{p.name[locale]}</span>
+          <span className="text-sm text-muted">{p.short[locale]}</span>
+        </span>
         {p.partner && <span className="ms-auto shrink-0 text-[11px] text-muted">{t.partner}</span>}
       </Link>
     </li>

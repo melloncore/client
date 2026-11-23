@@ -1,44 +1,41 @@
+import { cache } from "react";
+import { API_ROOT } from "@/lib/api-url";
 import type { BlogPost } from "@/types";
-
-const API_URL =
-  process.env.NEXT_PUBLIC_API_URL ?? "https://api.melloncore.com/api/v1";
 
 interface ApiResponse<T> {
   success: boolean;
   data: T;
 }
 
+/** null = the API said 404. Anything else that goes wrong throws. */
 async function fetchJson<T>(path: string): Promise<T | null> {
-  try {
-    const res = await fetch(`${API_URL}${path}`, { cache: "no-store" });
-    if (!res.ok) return null;
-    const json = (await res.json()) as ApiResponse<T>;
-    return json.data;
-  } catch {
-    return null;
-  }
-}
-
-export async function getPublishedPosts(): Promise<BlogPost[]> {
-  return (await fetchJson<BlogPost[]>("/blog/public")) ?? [];
-}
-
-export function getPublishedPost(slug: string): Promise<BlogPost | null> {
-  return fetchJson<BlogPost>(`/blog/public/${encodeURIComponent(slug)}`);
-}
-
-export function formatPostDate(date: string): string {
-  return new Date(`${date}T00:00:00.000Z`).toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-    timeZone: "UTC", // avoids server/client hydration mismatches
+  const res = await fetch(`${API_ROOT}${path}`, {
+    cache: "no-store",
+    headers: { Accept: "application/json" },
   });
+  if (res.status === 404) return null;
+  if (!res.ok) throw new Error(`Blog API responded ${res.status} for ${path}`);
+  const json = (await res.json()) as ApiResponse<T>;
+  return json.data ?? null;
 }
 
-// Serves Cloudinary images at a sensible size and format
-export function optimizedImage(url: string, width = 800): string {
-  return url.includes("/upload/")
-    ? url.replace("/upload/", `/upload/f_auto,q_auto,w_${width}/`)
-    : url;
-}
+/**
+ * List: never throws. If the API is down we render an empty list and the
+ * client (React Query) refetches on mount, so the page can recover by itself.
+ */
+export const getPublishedPosts = cache(async (): Promise<BlogPost[]> => {
+  try {
+    return (await fetchJson<BlogPost[]>("/blog/public")) ?? [];
+  } catch (err) {
+    console.error("[blog] could not load posts", err);
+    return [];
+  }
+});
+
+/**
+ * Single post: null ONLY for a real 404 (→ notFound()). An API outage throws,
+ * so the segment's error boundary shows "try again" instead of a fake 404.
+ */
+export const getPublishedPost = cache((slug: string): Promise<BlogPost | null> =>
+  fetchJson<BlogPost>(`/blog/public/${encodeURIComponent(slug)}`),
+);

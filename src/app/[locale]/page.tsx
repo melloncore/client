@@ -8,6 +8,7 @@ import Principle from "@/components/Principle";
 import Numbers from "@/components/Numbers";
 import World from "@/components/World";
 import Portfolio from "@/components/Portfolio";
+import Partners from "@/components/Partners";
 import Contact from "@/components/Contact";
 
 export default async function Home({ params }: { params: Promise<{ locale: string }> }) {
@@ -20,9 +21,9 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
       <Products locale={locale} />
       <Intelligence locale={locale} />
       <Principle locale={locale} />
-      <Numbers locale={locale} />
       <World locale={locale} />
       <Portfolio locale={locale} />
+      <Partners locale={locale} />
       <Contact locale={locale} />
     </>
   );

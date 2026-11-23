@@ -1,7 +1,8 @@
 "use client";
 import Link from "next/link";
-import { useEffect } from "react";
-import { dict, flagshipProducts as items, type Locale } from "@/content/site";
+import { useEffect, useRef } from "react";
+import { dict, productBySlug, showcaseProducts as items, type Locale } from "@/content/site";
+import { headlineSize } from "@/lib/headline";
 import { scrollToStep, useStep } from "@/lib/useStep";
 import Mockup from "./Mockup";
 
@@ -15,8 +16,15 @@ export default function Products({ locale }: { locale: Locale }) {
 
   useEffect(() => { if (ref.current) ref.current.dataset.accent = items[idx].hex; }, [idx, ref]);
 
+  // Keep the active pill centred in the (scrollable) pill row.
+  const tabs = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const list = tabs.current, el = list?.children[idx] as HTMLElement | undefined;
+    if (list && el) list.scrollTo({ left: el.offsetLeft - list.clientWidth / 2 + el.clientWidth / 2, behavior: "smooth" });
+  }, [idx]);
+
   return (
-    <section ref={ref} id="products" data-scene="products" className="relative z-10" style={{ height: `${total * 100}dvh` }}>
+    <section ref={ref} id="products" data-scene="products" className="relative z-10" style={{ height: `${total * (items.length > 6 ? 70 : 100)}dvh` }}>
       <div className="sticky top-0 h-dvh overflow-hidden">
         <div className="mx-auto flex h-full max-w-[1500px] flex-col px-5 pb-5 pt-20 sm:px-10 lg:px-16 lg:pt-24">
           <header className={`transition-opacity duration-500 ${exit ? "opacity-0" : "opacity-100"}`}>
@@ -32,12 +40,18 @@ export default function Products({ locale }: { locale: Locale }) {
                 return (
                   <div key={p.slug} inert={!on} aria-hidden={!on}
                     className={`col-start-1 row-start-1 transition-all duration-700 ${on ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-6 opacity-0"}`}>
-                    <h3 className="text-[clamp(2.8rem,10vw,7.5rem)] font-extralight leading-none tracking-[-0.04em] rtl:tracking-normal">{name}<span style={{ color: p.hex }}>.</span></h3>
+                    <h3 style={{ fontSize: headlineSize(name) }} className="font-extralight leading-none tracking-[-0.04em] rtl:tracking-normal">{name}<span style={{ color: p.hex }}>.</span></h3>
                     <p className="mt-2 max-w-md text-[clamp(1.05rem,2.2vw,1.7rem)] font-light leading-tight">{p.tagline?.[locale]}</p>
                     {p.partner && <p className="mt-2 text-xs text-muted">{t.partner}</p>}
                     <p className="mt-3 hidden max-w-md text-sm leading-relaxed text-muted sm:block">{p.blurb?.[locale]}</p>
                     <ul className="mt-4 hidden flex-wrap gap-1.5 text-[11px] md:flex">
-                      {(p.features?.[locale] ?? []).map((f) => <li key={f} className="rounded-full border px-2.5 py-1" style={{ borderColor: `${p.hex}66`, background: `${p.hex}1a` }}>{f}</li>)}
+                      {p.includes
+                        ? p.includes.map((slug) => productBySlug(slug)).filter((sub) => !!sub).map((sub) => (
+                            <li key={sub!.slug}>
+                              <Link href={`/${locale}/products/${sub!.slug}`} className="block rounded-full border px-2.5 py-1 hover:bg-line/10" style={{ borderColor: `${p.hex}66`, background: `${p.hex}1a` }}>{sub!.name[locale]}</Link>
+                            </li>
+                          ))
+                        : (p.features?.[locale] ?? []).map((f) => <li key={f} className="rounded-full border px-2.5 py-1" style={{ borderColor: `${p.hex}66`, background: `${p.hex}1a` }}>{f}</li>)}
                     </ul>
                     <Link href={`/${locale}/products/${p.slug}`} className="mt-4 inline-block rounded-full border border-line/25 px-5 py-2 text-sm hover:bg-line/5">{t.go.replace("{name}", name)}</Link>
                   </div>
@@ -64,7 +78,7 @@ export default function Products({ locale }: { locale: Locale }) {
           </div>
 
           <footer className={`flex items-center justify-between gap-3 transition-opacity duration-500 ${exit ? "opacity-0" : "opacity-100"}`}>
-            <div role="tablist" aria-label="Products" className="-mx-1 flex gap-2 overflow-x-auto px-1 pb-1">
+            <div ref={tabs} role="tablist" aria-label="Products" className="-mx-1 flex gap-2 overflow-x-auto px-1 pb-1">
               {items.map((p, i) => (
                 <button key={p.slug} role="tab" aria-selected={i === idx} onClick={() => scrollToStep(ref.current, i, total)}
                   className="flex shrink-0 items-center gap-2 rounded-full border px-4 py-2 text-xs transition-all sm:text-sm"

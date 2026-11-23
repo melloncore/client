@@ -50,7 +50,12 @@ export function useVisitorPing(enabled = true) {
     queryFn: pingVisitor,
     enabled,
     retry: false,
-    staleTime: 0,
+    // One ping per visit: never re-fire on tab focus / reconnect / remount.
+    staleTime: Infinity,
+    gcTime: Infinity,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+    refetchOnMount: false,
   });
 }
 

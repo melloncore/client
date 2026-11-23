@@ -4,7 +4,9 @@ import { notFound } from "next/navigation";
 import { dict, dir, isLocale, locales, type Locale } from "@/content/site";
 import Header from "@/components/Header";
 import ParticleStage from "@/components/ParticleStage";
+import Providers from "@/components/Providers";
 import SideNav from "@/components/SideNav";
+import { siteConfig } from "@/lib/site-config";
 import "../globals.css";
 
 const sans = Manrope({ subsets: ["latin"], variable: "--font-sans" });
@@ -23,6 +25,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   if (!isLocale(locale)) return {};
   const t = dict[locale];
   return {
+    metadataBase: new URL(siteConfig.url),
     title: `${t.brand} · ${t.hero.title}`,
     description: t.hero.text,
     alternates: {
@@ -44,10 +47,12 @@ export default async function LocaleLayout({ children, params }: { children: Rea
   return (
     <html lang={locale} dir={dir(locale)} className={`${sans.variable} ${arabic.variable}`}>
       <body>
-        <ParticleStage />
-        <Header locale={locale} />
-        <SideNav locale={locale} />
-        <main id="main">{children}</main>
+        <Providers locale={locale}>
+          <ParticleStage />
+          <Header locale={locale} />
+          <SideNav locale={locale} />
+          <main id="main">{children}</main>
+        </Providers>
       </body>
     </html>
   );

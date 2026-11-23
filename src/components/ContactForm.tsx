@@ -1,18 +1,25 @@
 "use client";
-import { useState } from "react";
 import { dict, type Locale } from "@/content/site";
+import { useSendContactMessage } from "@/hooks/api";
 
 export default function ContactForm({ locale }: { locale: Locale }) {
   const t = dict[locale].contact;
-  const [state, setState] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const send = useSendContactMessage();
+  const state = send.isPending ? "sending" : send.isSuccess ? "sent" : send.isError ? "error" : "idle";
 
-  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+  function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setState("sending");
-    try {
-      const res = await fetch("/api/contact", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(Object.fromEntries(new FormData(e.currentTarget))) });
-      setState(res.ok ? "sent" : "error");
-    } catch { setState("error"); }
+    const form = e.currentTarget;
+    const f = new FormData(form);
+    const v = (k: string) => String(f.get(k) ?? "").trim();
+    // The API takes name/email/company/message; keep job title + phone in the message so nothing is lost.
+    const extras = [v("job") && `Job title: ${v("job")}`, v("phone") && `Phone: ${v("phone")}`, `Site language: ${locale}`]
+      .filter(Boolean)
+      .join("\n");
+    send.mutate(
+      { name: `${v("first")} ${v("last")}`.trim(), email: v("email"), company: v("company"), message: `${v("message")}\n\n—\n${extras}` },
+      { onSuccess: () => form.reset() },
+    );
   }
 
   const field = "mt-1 w-full rounded-lg border border-[#d9dcea] bg-white px-3 py-2.5 text-sm text-[#10142e] placeholder:text-[#9aa0bd] focus:border-[#5b4bff]";
