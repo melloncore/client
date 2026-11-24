@@ -1,16 +1,28 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { dict, detailProducts, isLocale, locales, productBySlug } from "@/content/site";
+import { dict, isLocale, productBySlug } from "@/content/site";
 import Footer from "@/components/Footer";
 import Mockup from "@/components/Mockup";
 import { headlineSize } from "@/lib/headline";
 
-// Every product with full detail content (tagline, blurb, features, mock) gets a page.
-export const dynamicParams = false;
-export const generateStaticParams = () =>
-  locales.flatMap((locale) => detailProducts.map((p) => ({ locale, slug: p.slug })));
 
-export default async function ProductPage({ params }: { params: Promise<{ locale: string; slug: string }> }) {
+export const dynamic = "force-dynamic";
+
+type Props = { params: Promise<{ locale: string; slug: string }> };
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale, slug } = await params;
+  const p = productBySlug(slug);
+  if (!isLocale(locale) || !p) return {};
+  return {
+    title: `${p.name[locale]} · ${dict[locale].brand}`,
+    description: p.tagline?.[locale] ?? p.short[locale],
+    alternates: { canonical: `/${locale}/products/${slug}` },
+  };
+}
+
+export default async function ProductPage({ params }: Props) {
   const { locale, slug } = await params;
   const p = productBySlug(slug);
   if (!isLocale(locale) || !p || !p.tagline || !p.blurb || !p.features || !p.mock) notFound();
