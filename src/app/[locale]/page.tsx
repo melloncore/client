@@ -21,6 +21,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
       <Products locale={locale} />
       <Intelligence locale={locale} />
       <Principle locale={locale} />
+      <Numbers locale={locale} />
       <World locale={locale} />
       <Portfolio locale={locale} />
       <Partners locale={locale} />
