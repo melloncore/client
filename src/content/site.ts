@@ -950,7 +950,6 @@ export const partners = [
   { name: "Lenovo", logo: "/partners/lenovo.svg" },
   { name: "Huawei", logo: "/partners/huawei.svg" },
   { name: "Microsoft", logo: "/partners/microsoft.svg" },
-  { name: "Camunda", logo: "/partners/camunda.svg" },
 ] as const;
 
 export const offices = [
