@@ -959,6 +959,11 @@ export const offices = [
   { city: "Dubai", country: "UAE", tz: "Asia/Dubai", lat: 25.2, lon: 55.3 },
 ];
 
+// One company portfolio PDF for all languages (served from client/public/portfolio).
+const PORTFOLIO_PDF = "/portfolio/melloncore.pdf";
+export const portfolioFile = (_locale?: Locale): string => PORTFOLIO_PDF;
+
+
 const en = {
   brand: "Mellon Strata Core",
   nav: { products: "Products", intelligence: "Intelligence", service: "Services", blog: "Blog", contact: "Contact" },
@@ -1001,6 +1006,9 @@ const en = {
     service: "As a service", run: "We run the software.",
     steps: ["License with AI included", "Operations as a service", "Continuous evolution"],
     foot: "Less time maintaining systems, more time to grow the business.",
+    downloadTitle: "Download our company portfolio",
+    downloadText: "A complete overview of our software, hardware and services.",
+    downloadCta: "Download PDF",
   },
   contact: {
     title: "Let's talk.", sub: "Let's talk results.", text: "We'll show you the impact on your own processes.", see: "See products",
@@ -1053,6 +1061,9 @@ const es: typeof en = {
     service: "Como servicio", run: "Nosotros operamos el software.",
     steps: ["Licencia con IA incluida", "Operación como servicio", "Evolución continua"],
     foot: "Menos tiempo manteniendo sistemas, más tiempo para hacer crecer el negocio.",
+    downloadTitle: "Descarga nuestro portafolio",
+    downloadText: "Una visión completa de nuestro software, hardware y servicios.",
+    downloadCta: "Descargar PDF",
   },
   contact: {
     title: "Hablemos.", sub: "Hablemos de resultados.", text: "Te mostramos el impacto en tus propios procesos.", see: "Ver productos",
@@ -1105,6 +1116,9 @@ const fr: typeof en = {
     service: "En tant que service", run: "Nous exploitons le logiciel.",
     steps: ["Licence avec IA incluse", "Exploitation en tant que service", "Évolution continue"],
     foot: "Moins de temps à maintenir les systèmes, plus de temps pour développer l'entreprise.",
+    downloadTitle: "Téléchargez notre portefeuille",
+    downloadText: "Un aperçu complet de nos logiciels, matériels et services.",
+    downloadCta: "Télécharger le PDF",
   },
   contact: {
     title: "Parlons-en.", sub: "Parlons résultats.", text: "Nous vous montrons l'impact sur vos propres processus.", see: "Voir les produits",
@@ -1157,6 +1171,9 @@ const ar: typeof en = {
     service: "كخدمة", run: "نحن نشغّل البرنامج.",
     steps: ["ترخيص يشمل الذكاء الاصطناعي", "التشغيل كخدمة", "تطور مستمر"],
     foot: "وقت أقل في صيانة الأنظمة، ووقت أكثر لتنمية الأعمال.",
+    downloadTitle: "حمّل محفظة شركتنا",
+    downloadText: "نظرة شاملة على برمجياتنا وأجهزتنا وخدماتنا.",
+    downloadCta: "تحميل PDF",
   },
   contact: {
     title: "لنتحدث.", sub: "لنتحدث عن النتائج.", text: "سنريك الأثر على عملياتك الخاصة.", see: "عرض المنتجات",
@@ -1209,6 +1226,9 @@ const pt: typeof en = {
     service: "Como serviço", run: "Nós operamos o software.",
     steps: ["Licença com IA incluída", "Operação como serviço", "Evolução contínua"],
     foot: "Menos tempo mantendo sistemas, mais tempo para fazer o negócio crescer.",
+    downloadTitle: "Baixe o portfólio da empresa",
+    downloadText: "Uma visão completa dos nossos softwares, hardware e serviços.",
+    downloadCta: "Baixar PDF",
   },
   contact: {
     title: "Vamos conversar.", sub: "Vamos falar de resultados.", text: "Mostramos o impacto nos seus próprios processos.", see: "Ver produtos",
@@ -1261,6 +1281,9 @@ const de: typeof en = {
     service: "Als Service", run: "Wir betreiben die Software.",
     steps: ["Lizenz mit KI inklusive", "Betrieb als Service", "Kontinuierliche Weiterentwicklung"],
     foot: "Weniger Zeit für die Wartung von Systemen, mehr Zeit für das Wachstum des Unternehmens.",
+    downloadTitle: "Unser Unternehmensportfolio herunterladen",
+    downloadText: "Ein vollständiger Überblick über unsere Software, Hardware und Services.",
+    downloadCta: "PDF herunterladen",
   },
   contact: {
     title: "Sprechen wir.", sub: "Sprechen wir über Ergebnisse.", text: "Wir zeigen Ihnen die Wirkung auf Ihre eigenen Prozesse.", see: "Produkte ansehen",
@@ -1313,6 +1336,9 @@ const zh: typeof en = {
     service: "即服务", run: "我们负责运行软件。",
     steps: ["许可已含 AI", "运营即服务", "持续演进"],
     foot: "少花时间维护系统，多花时间发展业务。",
+    downloadTitle: "下载公司产品组合",
+    downloadText: "全面了解我们的软件、硬件与服务。",
+    downloadCta: "下载 PDF",
   },
   contact: {
     title: "聊一聊。", sub: "聊聊成果。", text: "我们将展示它对您自身流程的影响。", see: "查看产品",

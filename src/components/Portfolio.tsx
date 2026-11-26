@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { categories, dict, productsByGroup, type Locale, type Product } from "@/content/site";
+import { categories, dict, portfolioFile, productsByGroup, type Locale, type Product } from "@/content/site";
 
 export default function Portfolio({ locale }: { locale: Locale }) {
   const t = dict[locale].portfolio;
@@ -55,7 +55,9 @@ export default function Portfolio({ locale }: { locale: Locale }) {
             </div>
           ))}
         </div>
+
         <div data-anchor className="mx-auto aspect-square w-[min(60vw,260px)] xl:w-[min(24vw,360px)]" />
+
         <div>
           <p className="mb-3 flex items-center gap-2 text-[11px] text-muted"><span className="h-1.5 w-1.5 rounded-full bg-[#5b4bff]" />{t.service}</p>
           <h3 className="text-[clamp(1.6rem,2.6vw,2.4rem)] font-extralight">{t.run}</h3>
@@ -63,6 +65,24 @@ export default function Portfolio({ locale }: { locale: Locale }) {
             {t.steps.map((s, i) => <li key={s} className="flex gap-4 py-3"><span className="text-xs tabular-nums text-muted">0{i + 1}</span>{s}</li>)}
           </ol>
           <p className="mt-4 text-sm text-muted">{t.foot}</p>
+
+          {/* Company portfolio download */}
+          <div className="mt-8 flex flex-wrap items-center gap-4 rounded-2xl border border-line/10 p-5">
+            <div className="min-w-0 flex-1 basis-48">
+              <p className="font-medium">{t.downloadTitle}</p>
+              <p className="mt-1 text-sm text-muted">{t.downloadText}</p>
+            </div>
+            <a
+              href={portfolioFile(locale)}
+              download
+              className="inline-flex shrink-0 items-center gap-2 rounded-full bg-[#5b4bff] px-4 py-2 text-sm font-medium text-white hover:opacity-90"
+            >
+              <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                <path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14" />
+              </svg>
+              {t.downloadCta}
+            </a>
+          </div>
         </div>
       </div>
     </section>
